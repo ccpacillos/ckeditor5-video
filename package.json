@@ -16,13 +16,13 @@
     "build:watch": "webpack --mode development -w"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-clipboard": "^23.1.0",
-    "@ckeditor/ckeditor5-core": "^23.1.0",
-    "@ckeditor/ckeditor5-engine": "^23.1.0",
-    "@ckeditor/ckeditor5-ui": "^23.1.0",
-    "@ckeditor/ckeditor5-upload": "^23.1.0",
-    "@ckeditor/ckeditor5-utils": "^23.1.0",
-    "@ckeditor/ckeditor5-widget": "^23.1.0"
+    "@ckeditor/ckeditor5-clipboard": "^27.1.0",
+    "@ckeditor/ckeditor5-core": "^27.1.0",
+    "@ckeditor/ckeditor5-engine": "^27.1.0",
+    "@ckeditor/ckeditor5-ui": "^27.1.0",
+    "@ckeditor/ckeditor5-upload": "^27.1.0",
+    "@ckeditor/ckeditor5-utils": "^27.1.0",
+    "@ckeditor/ckeditor5-widget": "^27.1.0"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^23.1.0",
