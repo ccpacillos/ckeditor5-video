@@ -131,6 +131,7 @@ function _hideProgressBar( viewFigure, writer ) {
 function _showCompleteIcon( viewFigure, writer, view ) {
     const completeIcon = writer.createUIElement( 'div', { class: 'ck-video-upload-complete-icon' } );
 
+    writer.setAttribute('controls', 'true', viewFigure._children[0]);
     writer.insert( writer.createPositionAt( viewFigure, 'end' ), completeIcon );
 
     setTimeout( () => {
