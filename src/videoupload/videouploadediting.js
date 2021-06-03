@@ -9,7 +9,7 @@ import {
     isHtmlIncluded,
     isLocalVideo
 } from "./utils";
-import Clipboard from "@ckeditor/ckeditor5-clipboard/src/clipboard";
+// import Clipboard from "@ckeditor/ckeditor5-clipboard/src/clipboard";
 import UpcastWriter from "@ckeditor/ckeditor5-engine/src/view/upcastwriter";
 import env from "@ckeditor/ckeditor5-utils/src/env";
 import {getViewVideoFromWidget} from "../video/utils";
@@ -19,7 +19,7 @@ const DEFAULT_VIDEO_EXTENSIONS = ['mp4', 'webm', 'ogg'];
 
 export default class VideoUploadEditing extends Plugin {
     static get requires() {
-        return [FileRepository, Notification, Clipboard];
+        return [FileRepository, Notification];
     }
 
     constructor(editor) {
@@ -56,38 +56,38 @@ export default class VideoUploadEditing extends Plugin {
                 model: 'uploadId'
             });
 
-        this.listenTo(editor.editing.view.document, 'clipboardInput', (evt, data) => {
-            // Skip if non empty HTML data is included.
-            // https://github.com/ckeditor/ckeditor5-upload/issues/68
-            if (isHtmlIncluded(data.dataTransfer)) {
-                return;
-            }
+        // this.listenTo(editor.editing.view.document, 'clipboardInput', (evt, data) => {
+        //     // Skip if non empty HTML data is included.
+        //     // https://github.com/ckeditor/ckeditor5-upload/issues/68
+        //     if (isHtmlIncluded(data.dataTransfer)) {
+        //         return;
+        //     }
 
-            const videos = Array.from(data.dataTransfer.files).filter(file => {
-                // See https://github.com/ckeditor/ckeditor5-image/pull/254.
-                if (!file) {
-                    return false;
-                }
+        //     const videos = Array.from(data.dataTransfer.files).filter(file => {
+        //         // See https://github.com/ckeditor/ckeditor5-image/pull/254.
+        //         if (!file) {
+        //             return false;
+        //         }
 
-                return videoTypes.test(file.type);
-            });
+        //         return videoTypes.test(file.type);
+        //     });
 
-            const ranges = data.targetRanges.map(viewRange => editor.editing.mapper.toModelRange(viewRange));
+        //     const ranges = data.targetRanges.map(viewRange => editor.editing.mapper.toModelRange(viewRange));
 
-            editor.model.change(writer => {
-                // Set selection to paste target.
-                writer.setSelection(ranges);
+        //     editor.model.change(writer => {
+        //         // Set selection to paste target.
+        //         writer.setSelection(ranges);
 
-                if (videos.length) {
-                    evt.stop();
+        //         if (videos.length) {
+        //             evt.stop();
 
-                    // Upload videos after the selection has changed in order to ensure the command's state is refreshed.
-                    editor.model.enqueueChange('default', () => {
-                        editor.execute('videoUpload', {file: videos});
-                    });
-                }
-            });
-        });
+        //             // Upload videos after the selection has changed in order to ensure the command's state is refreshed.
+        //             editor.model.enqueueChange('default', () => {
+        //                 editor.execute('videoUpload', {file: videos});
+        //             });
+        //         }
+        //     });
+        // });
 
 
         // this.listenTo(editor.plugins.get(Clipboard), 'inputTransformation', (evt, data) => {
