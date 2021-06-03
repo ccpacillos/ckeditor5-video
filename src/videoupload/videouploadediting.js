@@ -90,31 +90,31 @@ export default class VideoUploadEditing extends Plugin {
         });
 
 
-        this.listenTo(editor.plugins.get(Clipboard), 'inputTransformation', (evt, data) => {
-            const fetchableVideos = Array.from(editor.editing.view.createRangeIn(data.content))
-                .filter(value => isLocalVideo(value.item) && !value.item.getAttribute('uploadProcessed'))
-                .map(value => {
-                    return {promise: fetchLocalVideo(value.item), videoElement: value.item};
-                });
+        // this.listenTo(editor.plugins.get(Clipboard), 'inputTransformation', (evt, data) => {
+        //     const fetchableVideos = Array.from(editor.editing.view.createRangeIn(data.content))
+        //         .filter(value => isLocalVideo(value.item) && !value.item.getAttribute('uploadProcessed'))
+        //         .map(value => {
+        //             return {promise: fetchLocalVideo(value.item), videoElement: value.item};
+        //         });
 
-            if (!fetchableVideos.length) {
-                return;
-            }
+        //     if (!fetchableVideos.length) {
+        //         return;
+        //     }
 
-            const writer = new UpcastWriter(editor.editing.view.document);
+        //     const writer = new UpcastWriter(editor.editing.view.document);
 
-            for (const fetchableVideo of fetchableVideos) {
-                // Set attribute marking that the video was processed already.
-                writer.setAttribute('uploadProcessed', true, fetchableVideo.videoElement);
+        //     for (const fetchableVideo of fetchableVideos) {
+        //         // Set attribute marking that the video was processed already.
+        //         writer.setAttribute('uploadProcessed', true, fetchableVideo.videoElement);
 
-                const loader = fileRepository.createLoader(fetchableVideo.promise);
+        //         const loader = fileRepository.createLoader(fetchableVideo.promise);
 
-                if (loader) {
-                    writer.setAttribute('src', '', fetchableVideo.videoElement);
-                    writer.setAttribute('uploadId', loader.id, fetchableVideo.videoElement);
-                }
-            }
-        });
+        //         if (loader) {
+        //             writer.setAttribute('src', '', fetchableVideo.videoElement);
+        //             writer.setAttribute('uploadId', loader.id, fetchableVideo.videoElement);
+        //         }
+        //     }
+        // });
 
         // Prevents from the browser redirecting to the dropped video.
         editor.editing.view.document.on('dragover', (evt, data) => {
