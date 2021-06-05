@@ -13,18 +13,28 @@ import VideoToolbar from "../src/videotoolbar";
 import VideoStyle from "../src/videostyle";
 
 class VideoUploadAdapter {
-    constructor( loader ) {
+    constructor(loader) {
         this.loader = loader;
     }
 
     upload() {
         const uploadVideo = async (file) => {
             this.loader.uploaded = false;
+            console.log(this.loader);
             return new Promise((resolve) => {
+                setTimeout(() => {
+                    this.loader.uploadedPercent = 30;
+                }, 1000);
+                setTimeout(() => {
+                    this.loader.uploadedPercent = 50;
+                }, 3000);
+                setTimeout(() => {
+                    this.loader.uploadedPercent = 80;
+                }, 7000);
                 setTimeout(() => {
                     this.loader.uploaded = true;
                     resolve({ default: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4' });
-                }, 2000);
+                }, 10000);
             });
         };
 
@@ -36,17 +46,17 @@ class VideoUploadAdapter {
     }
 }
 
-function VideoUploadAdapterPlugin( editor ) {
+function VideoUploadAdapterPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
         return new VideoUploadAdapter(loader);
     };
 }
 
 ClassicEditor
-    .create( document.querySelector( '#editor' ), {
-        plugins: [ Essentials, Paragraph, Bold, Italic, Heading, List, VideoToolbar, Video, VideoUpload, VideoResize, VideoStyle ],
+    .create(document.querySelector('#editor'), {
+        plugins: [Video, VideoUpload],
         extraPlugins: [VideoUploadAdapterPlugin],
-        toolbar: [ 'heading', 'bold', 'italic', 'numberedList', 'bulletedList', 'videoUpload' ],
+        toolbar: ['videoUpload'],
         video: {
             upload: {
                 types: ['mp4'],
@@ -85,12 +95,12 @@ ClassicEditor
                 'videoResize:original'
             ]
         }
-    } )
-    .then( editor => {
-        CKEditorInspector.attach( editor );
+    })
+    .then(editor => {
+        CKEditorInspector.attach(editor);
 
         window.editor = editor;
-    } )
-    .catch( error => {
-        console.error( error.stack );
-    } );
+    })
+    .catch(error => {
+        console.error(error.stack);
+    });
