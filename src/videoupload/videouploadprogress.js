@@ -37,8 +37,6 @@ export default class VideoUploadProgress extends Plugin {
         const viewWriter = conversionApi.writer;
 
         if (status === 'reading') {
-            window.localStorage.setItem('videoUploadStatus', 'started');
-            window.localStorage.setItem('videoUploadProgress', 0);
             // Start "appearing" effect and show placeholder with infinite progress bar on the top
             // while video is read from disk.
             _startAppearEffect(viewFigure, viewWriter);
@@ -49,7 +47,6 @@ export default class VideoUploadProgress extends Plugin {
 
         // Show progress bar on the top of the video when video is uploading.
         if (status === 'uploading') {
-            window.localStorage.setItem('videoUploadStatus', 'uploading');
             const loader = fileRepository.loaders.get(uploadId);
 
             // Start appear effect if needed - see https://github.com/ckeditor/ckeditor5-image/issues/191.
@@ -121,7 +118,6 @@ function _showProgressBar(viewFigure, writer, loader, view) {
 
     // Update progress bar width when uploadedPercent is changed.
     loader.on('change:uploadedPercent', (evt, name, value) => {
-        window.localStorage.setItem('videoUploadProgress', value);
         view.change(writer => {
             writer.setStyle('width', value + '%', progressBar);
         });
@@ -138,13 +134,9 @@ function _showCompleteIcon(viewFigure, writer, view) {
     writer.setAttribute('controls', 'true', viewFigure._children[0]);
     writer.insert(writer.createPositionAt(viewFigure, 'end'), completeIcon);
 
-    window.localStorage.setItem('videoUploadStatus', 'completed');
-    window.localStorage.setItem('videoUploadProgress', 100);
 
     setTimeout(() => {
         view.change(writer => writer.remove(writer.createRangeOn(completeIcon)));
-        window.localStorage.removeItem('videoUploadStatus');
-        window.localStorage.removeItem('videoUploadProgress')
     }, 3000);
 }
 
